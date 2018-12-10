@@ -14,6 +14,7 @@ for (var i = 0; i < 3; i++) {
   for (var j = 0; j < 3; j++) {
     var box = document.createElement('button');
     box.classList.add("button", "col" + j, "row" + i);
+    box.id = i * 3 + j;
     box.style.width = '100px';
     box.style.height = '100px';
     box.style.verticalAlign= 'top';
@@ -64,7 +65,7 @@ var makeMove = function(nextMove) {
 };
 
 var checkBoard = function(board) {
-    if (checkRow.call(this,board) || checkCols.call(this,board) || checkDiagonals()) {
+    if (checkRow.call(this,board) || checkCols.call(this,board) || checkDiagonals.call(this,board)) {
       for (var i = 0; i < buttons.length; i++){
         buttons[i].disabled = true; 
       }
@@ -93,7 +94,24 @@ var checkCols = function(board) {
 };
 
 
-var checkDiagonals = function() {
-  
+var checkDiagonals = function(board) {
+  if (Number(this.id) % 2 !== 0) {
+    console.log('dun need to check');
+    return false;
+  } else if (Number(this.id) % 4 === 0) {
+    
+    for (var i = 0; i < board.length * board.length; i+=4) {
+      if (document.getElementById(i).innerHTML !== this.innerHTML) {
+        return false;
+      }
+    } 
+  } else {
+    for (var i = 2; i < 7; i+=2) {
+      if (document.getElementById(i).innerHTML !== this.innerHTML) {
+        return false;
+      }
+    } 
+  }
+  return true;
 }
 
