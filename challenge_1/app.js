@@ -1,10 +1,14 @@
 //setup board - view
-
+var player1 = prompt('Please enter Player One\'s name');
+var player2 = prompt('Please enter Player Two\'s name');
+var p1score = 0;
+var p2score = 0;
+var result = document.getElementById('result');
 var board = [
 [0,0,0],
 [0,0,0],
 [0,0,0]
-]
+];
 
 for (var i = 0; i < 3; i++) {
   var div = document.createElement('div');
@@ -17,15 +21,27 @@ for (var i = 0; i < 3; i++) {
     box.id = i * 3 + j;
     box.style.width = '100px';
     box.style.height = '100px';
+    box.style.fontSize ="20px"
     box.style.verticalAlign= 'top';
     document.getElementById('row' + i).appendChild(box);
   }
 };
 
+document.getElementById('p1name').innerHTML = player1 + " (X) " + ": ";
+document.getElementById('p1score').style.marginRight = "20px";
+document.getElementById('p2name').innerHTML = player2 + " (O) " + ": ";
+document.getElementById('scores').style.display = "flex";
+
 document.getElementById('restartButton').onclick = function() {
   for (var i = 0; i < buttons.length; i++){
     buttons[i].disabled = false; 
     buttons[i].innerHTML = "";
+    board = [
+              [0,0,0],
+              [0,0,0],
+              [0,0,0]
+            ];
+    result.innerHTML = "";
   }
 };
 
@@ -49,12 +65,10 @@ var updateBoard = function(button) {
   var col = Number(button.classList[1].substring(3));
   var row = Number(button.classList[2].substring(3));
   board[row][col] = next;
-  console.log(board);
 };
 
 
 var makeMove = function(nextMove) {
-  console.log(this);
   updateBoard(this);
   this.innerHTML = next;
   if (next === 'X') {
@@ -65,12 +79,27 @@ var makeMove = function(nextMove) {
 };
 
 var checkBoard = function(board) {
-    if (checkRow.call(this,board) || checkCols.call(this,board) || checkDiagonals.call(this,board)) {
+    if (checkRow.call(this, board) || checkCols.call(this, board) || checkDiagonals.call(this, board)) {
       for (var i = 0; i < buttons.length; i++){
         buttons[i].disabled = true; 
       }
-      document.getElementById('result').innerHTML = this.innerHTML + ' wins!'
+     
+      if (this.innerHTML === 'X') {
+        p1score++;
+        result.innerHTML = player1 + ' wins!';
+      } else {
+        p2score++
+        result.innerHTML = player2 + ' wins!';
+      }
+      document.getElementById('p1score').innerHTML = p1score;
+      document.getElementById('p2score').innerHTML = p2score;
+
+
+      next = this.innerHTML;
+    } else if (fullBoard(board)) {
+      result.innerHTML = "TIE";
     }
+
 };
 
 var checkRow = function(board) {
@@ -96,7 +125,6 @@ var checkCols = function(board) {
 
 var checkDiagonals = function(board) {
   if (Number(this.id) % 2 !== 0) {
-    console.log('dun need to check');
     return false;
   } else if (Number(this.id) % 4 === 0) {
     
@@ -111,6 +139,15 @@ var checkDiagonals = function(board) {
         return false;
       }
     } 
+  }
+  return true;
+}
+
+var fullBoard = function(board) {
+  for (var i = 0; i < buttons.length; i++){
+    if (buttons[i].disabled === false) {
+      return false;
+    }
   }
   return true;
 }
