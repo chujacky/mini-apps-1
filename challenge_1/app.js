@@ -3,7 +3,9 @@ var player1 = prompt('Please enter Player One\'s name');
 var player2 = prompt('Please enter Player Two\'s name');
 var p1score = 0;
 var p2score = 0;
-var result = document.getElementById('result');
+var result = document.getElementById('result');   
+var turn = document.getElementById('turn');   
+var restart = document.getElementById('restartButton');
 var board = [
 [0,0,0],
 [0,0,0],
@@ -19,29 +21,33 @@ for (var i = 0; i < 3; i++) {
     var box = document.createElement('button');
     box.classList.add("button", "col" + j, "row" + i);
     box.id = i * 3 + j;
-    box.style.width = '100px';
-    box.style.height = '100px';
-    box.style.fontSize ="20px"
-    box.style.verticalAlign= 'top';
     document.getElementById('row' + i).appendChild(box);
   }
 };
 
-document.getElementById('p1name').innerHTML = player1 + " (X) " + ": ";
-document.getElementById('p1score').style.marginRight = "20px";
-document.getElementById('p2name').innerHTML = player2 + " (O) " + ": ";
-document.getElementById('scores').style.display = "flex";
+document.getElementById('p1name').textContent = player1 + " (X) " + ": ";
+document.getElementById('p2name').textContent = player2 + " (O) " + ": ";
 
-document.getElementById('restartButton').onclick = function() {
+
+restart.disabled = true;
+turn.textContent = player1 + "\'s turn";
+
+restart.onclick = function() {
+  restart.disabled = true;
   for (var i = 0; i < buttons.length; i++){
     buttons[i].disabled = false; 
-    buttons[i].innerHTML = "";
+    buttons[i].textContent = "";
     board = [
               [0,0,0],
               [0,0,0],
               [0,0,0]
             ];
-    result.innerHTML = "";
+    result.textContent = "";
+  }
+  if (next === 'X') {
+    turn.textContent = player1 + "\'s turn";
+  } else {
+    turn.textContent = player2 + "\'s turn";
   }
 };
 
@@ -53,7 +59,6 @@ for (var i = 0; i < buttons.length; i++){
     this.disabled = true;
     makeMove.call(this, next);
     checkBoard.call(this, board)
-   
   }
 };
 
@@ -70,11 +75,13 @@ var updateBoard = function(button) {
 
 var makeMove = function(nextMove) {
   updateBoard(this);
-  this.innerHTML = next;
+  this.textContent = next;
   if (next === 'X') {
+    turn.textContent = player2 + "\'s turn";
     next = 'O';
   } else {
     next = 'X';
+    turn.textContent = player1 + "\'s turn";
   }
 };
 
@@ -84,20 +91,20 @@ var checkBoard = function(board) {
         buttons[i].disabled = true; 
       }
      
-      if (this.innerHTML === 'X') {
+      if (this.textContent === 'X') {
         p1score++;
-        result.innerHTML = player1 + ' wins!';
+        result.textContent = player1 + ' wins!';
       } else {
         p2score++
-        result.innerHTML = player2 + ' wins!';
+        result.textContent = player2 + ' wins!';
       }
-      document.getElementById('p1score').innerHTML = p1score;
-      document.getElementById('p2score').innerHTML = p2score;
-
-
-      next = this.innerHTML;
+      document.getElementById('p1score').textContent = p1score;
+      document.getElementById('p2score').textContent = p2score;
+      next = this.textContent;
+      restart.disabled = false;
     } else if (fullBoard(board)) {
-      result.innerHTML = "TIE";
+      result.textContent = "TIE";
+      restart.disabled = false;
     }
 
 };
@@ -105,7 +112,7 @@ var checkBoard = function(board) {
 var checkRow = function(board) {
   var row = Number(this.classList[2].substring(3));
   for (var i = 0; i < board[row].length; i++) {
-    if (board[row][i] !== this.innerHTML){
+    if (board[row][i] !== this.textContent){
       return false;
     }
   };
@@ -115,7 +122,7 @@ var checkRow = function(board) {
 var checkCols = function(board) {
   var col = Number(this.classList[1].substring(3));
   for (var i = 0; i < board.length; i++) {
-    if (board[i][col] !== this.innerHTML){
+    if (board[i][col] !== this.textContent){
       return false;
     }
   };
@@ -129,13 +136,13 @@ var checkDiagonals = function(board) {
   } else if (Number(this.id) % 4 === 0) {
     
     for (var i = 0; i < board.length * board.length; i+=4) {
-      if (document.getElementById(i).innerHTML !== this.innerHTML) {
+      if (document.getElementById(i).textContent !== this.textContent) {
         return false;
       }
     } 
   } else {
     for (var i = 2; i < 7; i+=2) {
-      if (document.getElementById(i).innerHTML !== this.innerHTML) {
+      if (document.getElementById(i).textContent !== this.textContent) {
         return false;
       }
     } 

@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Bungee');
+
+body{
+  background-color:gainsboro;
+  display:flex;
+  flex-direction: column; 
+  align-items: center;
+  font-family: 'Bungee', cursive;
+}
+
+.button{
+  width:100px;
+  height:100px;
+  font-size: 30px;
+  vertical-align: top;
+  color:LightSlateGray;
+}
+
+.button:hover{
+background-color: CadetBlue;
+}
+
+#restartButton{
+  font-family: 'Bungee', cursive;
+  font-size: 30px;
+}
+
+#scores{
+  display:flex;
+}
+
+#p1score{
+  margin-right: 20px;
+}
+/*document.getElementById('p1score').style.marginRight = "20px";*/
+
+/*document.getElementById('scores').style.display = "flex";*/
+/*box.style.width = '100px';
+box.style.height = '100px';
+box.style.fontSize ="20px"
+box.style.verticalAlign= 'top';*/
