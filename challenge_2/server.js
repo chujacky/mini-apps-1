@@ -13,17 +13,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', upload.single('json'), (req, res) => {
-  var path = req.file.path;
-  fs.readFile(path, (err, data) => {
-    if (err) {
-      throw err;
-    }
-    data = JSON.parse(data);
+  data = req.body;
+
+  // var path = req.file.path;
+  // console.log(path);
+  // fs.readFile(path, (err, data) => {
+  //   if (err) {
+  //     throw err;
+  //   }
+  //   data = JSON.parse(data)
+  debugger;
     data = flatten.flatten(data);
+
     data = createCSV.createCSV(data);
-    data = HTTPsify.HTTPsify(data);
+    console.log(data);
     res.status(200).send(data);
-  })
+  // })
+
+  // res.status(200).send('hi');
 })
 
 app.listen(3000, () => {console.log("CSV Report Generator is listening")});
