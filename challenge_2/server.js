@@ -22,11 +22,12 @@ app.post('/', upload.single('json'), (req, res) => {
   //     throw err;
   //   }
   //   data = JSON.parse(data)
-  debugger;
     data = flatten.flatten(data);
-
     data = createCSV.createCSV(data);
-    console.log(data);
+    fs.writeFile('client/downloads/data.csv', data, (err) => {
+      if (err) throw err;
+      console.log('File saved')
+    })
     res.status(200).send(data);
   // })
 

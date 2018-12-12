@@ -27,7 +27,7 @@ var createCSV = (array) => {
 
   var createHeader = (array) => {
     var header = Object.keys(array[0]).join(",")
-    header += "<br>";
+    header += "\n";
     return header;
   }
 
@@ -35,7 +35,7 @@ var createCSV = (array) => {
     var data = "";
     for (var i = 0; i < array.length; i++){
       var values = Object.values(array[i]).join(",");
-      data += values + "<br>";
+      data += values + "\n";
     }
     return data;
   }

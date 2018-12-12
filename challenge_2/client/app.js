@@ -13,6 +13,7 @@ $('#data').on('submit', function(e) {
     processData: false,  // Important!
     contentType: false,
     success: function (data) {
+            data = data.replace(/\n/gi, "<br>");
             $('#csv').replaceWith(`<p id="csv">${data}</p>`);
     }
   })
