@@ -26,17 +26,8 @@ var flatten = (obj) => {
 var createCSV = (array) => {
 
   var createHeader = (array) => {
-    var header = "";
-    for(var key in array[0]){
-      if (!header){
-        header = key;
-      } else {
-
-        header = header + ", " + key;
-      }
-    }
+    var header = Object.keys(array[0]).join(",")
     header += "<br>";
-    console.log(header);
     return header;
   }
 
@@ -46,7 +37,6 @@ var createCSV = (array) => {
       var values = Object.values(array[i]).join(",");
       data += values + "<br>";
     }
-    console.log(data);
     return data;
   }
   return createHeader(array) + createData(array);
@@ -63,7 +53,7 @@ var HTTPsify = (string) => {
 <h1>CSV Report Generator</h1>
 <h3>Put JSON data in the form and submit when you are ready</h3>
 <form action="/" method="post" >
-  <textarea id="json" rows="15" cols="60" name="json"></textarea>
+  <input type="file" name="json">
   <button id="submitButton">Submit</button>
 </form>
 <p id="csv">${string}</p>

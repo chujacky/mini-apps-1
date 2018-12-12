@@ -6,8 +6,9 @@
 <body>
 <h1>CSV Report Generator</h1>
 <h3>Put JSON data in the form and submit when you are ready</h3>
-<form action="/" method="post" >
-  <textarea id="json" rows="15" cols="60" name="json"></textarea>
+<form action="/" method="post" enctype="multipart/form-data">
+  <!-- textarea id="json" rows="15" cols="60" name="json"></textarea> -->
+  <input type="file" name="json">
   <button id="submitButton">Submit</button>
 </form>
 <p id="csv"></p>
