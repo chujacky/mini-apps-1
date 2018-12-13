@@ -1,9 +1,11 @@
 const mysql = require('mysql');
 
 const db = mysql.createConnection({
-  user:'root',
-  password:'jackyjai',
-  database:'sales'
+  user:'student',
+  password:'student',
+  database:'Sales'
 })
 
 db.connect();
+
+module.exports = db;

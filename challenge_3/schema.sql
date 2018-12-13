@@ -12,6 +12,7 @@ CREATE TABLE sales (
   city VARCHAR(32),
   state VARCHAR(32),
   zip_code INT,
+  phone INT,
   card INT,
   expiry_date DATE,
   cvv INT,

@@ -29,7 +29,9 @@ class App extends React.Component{
       card:'',
       expiry:'',
       cvv:'',
-      bill:''
+      bill:'',
+      id:0,
+      submit:0
     }
 
     this.buttonClick = this.buttonClick.bind(this);
@@ -41,7 +43,9 @@ class App extends React.Component{
     var status = this.state.pageStatus === 3 ? 0 : this.state.pageStatus + 1;
     this.setState({
       pageStatus: status,
-      formDetails: this.formBuild[status]
+      formDetails: this.formBuild[status],
+      id:0,
+      submit:0
     })
 
 
@@ -70,9 +74,11 @@ class App extends React.Component{
       card:this.state.card,
       expiry:this.state.expiry,
       cvv:this.state.cvv,
-      bill:this.state.bill
+      bill:this.state.bill,
+      id:this.state.id,
+      submit:this.state.submit
     }
-
+   
     fetch('/', {
       method:'POST',
       headers:{
@@ -81,9 +87,29 @@ class App extends React.Component{
       body: JSON.stringify(userData)
     })
     .then((response) => {
-      response.json();
+      
+      response.json()
+        .then((data) =>{
+          if (this.state.submit === 0)
+          { var submit = this.state.submit;
+            console.log(submit);
+            this.setState({
+              id: data.insertId,
+              submit: this.state.submit++
+            });
+          } else {
+            var submit = this.state.submit;
+            console.log(submit);
+            submit++;
+            this.setState({
+              submit: submit
+            })
+            
+          }
+        });
     })
     .then(() => {
+     
       this.setState({
         name:'',
         password:'',
