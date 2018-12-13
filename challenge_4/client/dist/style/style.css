@@ -1,0 +1,19 @@
+.circles{
+	width: 80px;
+	height: 80px;
+	border: 1px black solid;
+	border-radius:50%;
+	margin:10px;
+	background-color: white;
+}
+
+#board {
+  display:flex;
+  flex-direction: column;
+  background-color: royalblue;
+  width:700px;
+}
+
+.row{
+  display:flex;
+}
