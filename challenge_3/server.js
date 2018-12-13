@@ -9,6 +9,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/', function(req, res) {
+
   if (req.body.id === 0) {
     var form1 = [req.body.name, req.body.password, req.body.email];
     var queryString = `INSERT INTO sales (name,password,email) VALUES ('${req.body.name}','${req.body.password}','${req.body.email}');`
@@ -22,7 +23,7 @@ app.post('/', function(req, res) {
           res.json(result);
         }
       });
-  } else if (req.body.submit === 1){
+  } else if (req.body.pageStatus === 2){
     var form2  = [req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip, req.body.phone, req.body.card, req.body.expiry, req.body.cvv, req.body.bill];
     var queryString = 'UPDATE sales SET '
     queryString += `line1 = '${req.body.line1}',line2 ='${req.body.line2}', city='${req.body.city}',state='${req.body.state}',zip_code=${req.body.zip},phone=${req.body.phone} `
@@ -40,7 +41,7 @@ app.post('/', function(req, res) {
   
   } else {
     var queryString = 'UPDATE sales SET '
-    queryString += `card = ${req.body.card},expiry_date ='${req.body.expiry}', billing_zip=${req.body.bill} `
+    queryString += `card = ${req.body.card},expiry_date ='${req.body.expiry}', cvv=${req.body.cvv}, billing_zip=${req.body.bill} `
     queryString += `WHERE id = ${req.body.id}`
     db.query(queryString, (err, result) =>{
         if (err){

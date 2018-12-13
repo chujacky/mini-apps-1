@@ -31,7 +31,6 @@ class App extends React.Component{
       cvv:'',
       bill:'',
       id:0,
-      submit:0
     }
 
     this.buttonClick = this.buttonClick.bind(this);
@@ -41,15 +40,20 @@ class App extends React.Component{
 
   buttonClick(e) {
     var status = this.state.pageStatus === 3 ? 0 : this.state.pageStatus + 1;
-    this.setState({
-      pageStatus: status,
-      formDetails: this.formBuild[status],
-      id:0,
-      submit:0
-    })
-
-
-  }
+    console.log(status);
+    if (status === 0) {
+      this.setState({
+        pageStatus: status,
+        formDetails: this.formBuild[status],
+        id:0
+      });
+    } else {
+      this.setState({
+        pageStatus: status,
+        formDetails: this.formBuild[status],
+      });
+    }
+}
 
   handleChange(e) {
     var newState = this.state;
@@ -60,7 +64,6 @@ class App extends React.Component{
   handleSubmit(e){
     e.preventDefault();
     this.buttonClick(e);
-    console.log('submitted');
     var userData = {
       name:this.state.name,
       password:this.state.password,
@@ -76,7 +79,7 @@ class App extends React.Component{
       cvv:this.state.cvv,
       bill:this.state.bill,
       id:this.state.id,
-      submit:this.state.submit
+      pageStatus:this.state.pageStatus
     }
    
     fetch('/', {
@@ -90,26 +93,15 @@ class App extends React.Component{
       
       response.json()
         .then((data) =>{
-          if (this.state.submit === 0)
-          { var submit = this.state.submit;
-            console.log(submit);
+          console.log('------', this.state.pageStatus)
+          if (this.state.pageStatus === 2){ 
             this.setState({
               id: data.insertId,
-              submit: this.state.submit++
             });
-          } else {
-            var submit = this.state.submit;
-            console.log(submit);
-            submit++;
-            this.setState({
-              submit: submit
-            })
-            
           }
         });
     })
     .then(() => {
-     
       this.setState({
         name:'',
         password:'',
@@ -123,7 +115,7 @@ class App extends React.Component{
         card:'',
         expiry:'',
         cvv:'',
-        bill:''
+        bill:'',
       })
     })
     .catch((error) =>{

@@ -14,7 +14,7 @@ CREATE TABLE sales (
   zip_code INT,
   phone INT,
   card INT,
-  expiry_date DATE,
+  expiry_date VARCHAR(30),
   cvv INT,
   billing_zip INT
 )
