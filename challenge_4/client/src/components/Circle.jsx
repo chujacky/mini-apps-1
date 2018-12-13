@@ -6,13 +6,28 @@ class Circle extends React.Component {
     super(props);
 
     this.state ={
-      clicked: false
+      clicked: false,
+      color: {'backgroundColor': 'white'}
+    };
+
+    this.addDisc = this.addDisc.bind(this);
+  }
+
+  addDisc() {
+    if (!this.state.clicked) {
+      var color = this.props.player === 1 ? 'red' : 'yellow';
+      var style = {'backgroundColor': color};
+      this.setState({
+        clicked: true,
+        color:style
+      });
     }
   }
 
   render() {
     return(
-      <div className='circles'></div>
+      <div style={this.state.color} className={'circles '+ 'row'+ this.props.row} onClick={() => {this.addDisc(); this.props.click()}}>
+      </div>
     )
   }
 

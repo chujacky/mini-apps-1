@@ -5,7 +5,7 @@ var Row = (props) => {
   return (
     <div className="row">
       {props.circles.map((circle) =>{
-        return <Circle />
+        return <Circle player={props.player} click={props.click} row={props.row} />
       })}
     </div>
   )

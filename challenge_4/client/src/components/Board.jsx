@@ -5,8 +5,8 @@ var Board = (props) => {
 
   return (
     <div id="board">
-    {props.size.map((row) =>{
-      return <Row circles={row} />
+    {props.size.map((row, index) =>{
+      return <Row circles={row} player={props.player} click={props.click} row={index}/>
     })}
     </div>
   )
