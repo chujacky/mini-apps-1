@@ -34,20 +34,20 @@ class App extends React.Component {
   // }
 
   checkResult(col, row, player) {
-    var column = this.state.board[col];
+    var board = this.state.board;
     var row  
-    var checkCol = function() {
+    var checkCol = function(col, row, player) {
       var count = 0;
     
-      for (var i = row + 1; i < column.length; i++) {
-        if (column[i] === player) {
+      for (var i = row + 1; i < board[col].length; i++) {
+        if (board[col][i] === player) {
           count++;
         } else {
           break;
         }
       }
       for (var i = row; i >= 0; i--) {
-        if (column[i] === player) {
+        if (board[col][i] === player) {
           count++;
         } else {
           break;
@@ -60,7 +60,31 @@ class App extends React.Component {
       return false;
     }
 
-    if (checkCol(col, row, player)) {
+    var checkRow = function(col, row, player) {
+      var count = 0;
+      for (var i = col + 1; i < board.length; i++) {
+        if (board[i][row] === player) {
+          count++;
+        } else {
+          break;
+        }
+      }
+       for (var i = col; i >=0 ; i--) {
+        if (board[i][row] === player) {
+          count++;
+        } else {
+          break;
+        }
+      }
+      
+      if (count >= 4){
+        return true;
+      }
+      return false;
+    }
+
+
+    if (checkCol(col, row, player) || checkRow(col, row, player)) {
       alert(player + 'won!')
     } else {
       console.log('still tie');
