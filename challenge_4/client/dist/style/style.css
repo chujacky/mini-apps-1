@@ -9,11 +9,19 @@
 
 #board {
   display:flex;
-  flex-direction: column;
   background-color: royalblue;
-  width:700px;
+  width:720px;
 }
 
-.row{
+.columns{
   display:flex;
+  flex-direction: column;
+}
+
+
+.R{
+  background-color: red;
+}
+.Y{
+  background-color: yellow;
 }

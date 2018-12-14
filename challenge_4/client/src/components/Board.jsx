@@ -1,12 +1,12 @@
 import React from 'react';
-import Row from './Row.jsx';
+import Column from './Column.jsx';
 
 var Board = (props) => {
 
   return (
     <div id="board">
-    {props.size.map((row, index) =>{
-      return <Row circles={row} player={props.player} click={props.click} row={index}/>
+    {props.board.map((col, index) =>{
+      return <Column circles={col} click={props.click.bind(null, index)} />
     })}
     </div>
   )
