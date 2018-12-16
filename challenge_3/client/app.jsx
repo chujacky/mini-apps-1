@@ -40,7 +40,6 @@ class App extends React.Component{
 
   buttonClick(e) {
     var status = this.state.pageStatus === 3 ? 0 : this.state.pageStatus + 1;
-    console.log(status);
     if (status === 0) {
       this.setState({
         pageStatus: status,
@@ -68,6 +67,7 @@ class App extends React.Component{
       name:this.state.name,
       password:this.state.password,
       email:this.state.email,
+      id:this.state.id,
       line1:this.state.line1,
       line2:this.state.line2,
       city:this.state.city,
@@ -78,7 +78,6 @@ class App extends React.Component{
       expiry:this.state.expiry,
       cvv:this.state.cvv,
       bill:this.state.bill,
-      id:this.state.id,
       pageStatus:this.state.pageStatus
     }
    
@@ -90,13 +89,12 @@ class App extends React.Component{
       body: JSON.stringify(userData)
     })
     .then((response) => {
-      
       response.json()
         .then((data) =>{
-          console.log('------', this.state.pageStatus)
+          console.log(data, this.state.pageStatus);
           if (this.state.pageStatus === 2){ 
             this.setState({
-              id: data.insertId,
+              id: data,
             });
           }
         });
@@ -116,11 +114,14 @@ class App extends React.Component{
         expiry:'',
         cvv:'',
         bill:'',
-      })
+      })     
     })
     .catch((error) =>{
       console.log(error);
     });
+      console.log(this.state.id);
+
+    
   }
 
   render() {

@@ -9,51 +9,46 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/', function(req, res) {
-
-  if (req.body.id === 0) {
-    var form1 = [req.body.name, req.body.password, req.body.email];
-    var queryString = `INSERT INTO sales (name,password,email) VALUES ('${req.body.name}','${req.body.password}','${req.body.email}');`
-      db.query(queryString, (err, result) =>{
-        if (err){
-          console.log(err, result);
-          // cb(error);
-        } else {
-          // cb(null, result);
-          console.log(result);
-          res.json(result);
-        }
-      });
-  } else if (req.body.pageStatus === 2){
-    var form2  = [req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip, req.body.phone, req.body.card, req.body.expiry, req.body.cvv, req.body.bill];
-    var queryString = 'UPDATE sales SET '
-    queryString += `line1 = '${req.body.line1}',line2 ='${req.body.line2}', city='${req.body.city}',state='${req.body.state}',zip_code=${req.body.zip},phone=${req.body.phone} `
-    queryString += `WHERE id = ${req.body.id}`
-    db.query(queryString, (err, result) =>{
-        if (err){
-          console.log(err, result);
-          // cb(error);
-        } else {
-          // cb(null, result);
-          console.log(result);
-          res.json(result);
-        }
-      });
+  var {name, password, email, id, line1, line2, city, state, zip, phone, card, expiry, cvv, bill, pageStatus} = req.body;
+  if (id === 0) {
+    db.create({name:name, password: password, email: email})
+      .then((data) => {
+        res.status(201).json(data.dataValues.id);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  } else if (pageStatus === 2){
+    
+    db.update({
+      line1: line1,
+      line2: line2,
+      city: city,
+      state: state,
+      zip: zip,
+      phone: phone
+    }, {
+      where: {
+        id: id
+      }
+    })
   
   } else {
-    var queryString = 'UPDATE sales SET '
-    queryString += `card = ${req.body.card},expiry_date ='${req.body.expiry}', cvv=${req.body.cvv}, billing_zip=${req.body.bill} `
-    queryString += `WHERE id = ${req.body.id}`
-    db.query(queryString, (err, result) =>{
-        if (err){
-          console.log(err, result);
-          // cb(error);
-        } else {
-          // cb(null, result);
-          console.log(result);
-          res.json(result);
-        }
-      });
-  
+     card = card === '' ? null : card;
+     expiry = expiry === '' ? null : expiry;
+     cvv = cvv === '' ? null : cvv;
+     bill = bill === '' ? null : bill;
+     db.update({
+      card: card,
+      expiry: expiry,
+      cvv: cvv,
+      billing_zip: bill,
+    }, {
+      where: {
+        id: id
+      }
+    })
+    
   }
     
 })
